@@ -3,6 +3,7 @@ import { View, Text, TextInput, ScrollView, StyleSheet, TouchableOpacity, Alert,
 import { useFocusEffect } from '@react-navigation/native';
 
 export default function Inserir() {
+    const [usuarioId, setUsuarioId] = useState(0);
     const [email, setEmail] = useState('');
     const [nomeDeUsuario, setNomeDeUsuario] = useState('');
     const [senha, setSenha] = useState('');
@@ -35,6 +36,7 @@ export default function Inserir() {
             method:"POST",
             body:JSON.stringify(
                 {
+                    usuarioId: usuarioId,
                     usuarioNome: nomeDeUsuario,
                     usuarioEmail: email,
                     usuarioTelefone: usuarioTelefone,
