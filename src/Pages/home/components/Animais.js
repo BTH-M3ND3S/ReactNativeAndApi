@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 
@@ -6,32 +6,26 @@ export default function Animais({ nome, raca, tipo, cor, sexo, foto, dtDesaparec
   const formattedDtDesaparecimento = moment(dtDesaparecimento).format('DD/MM/YYYY');
   const formattedDtEncontro = moment(dtEncontro).format('DD/MM/YYYY');
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.productInfo}>
-        <Text style={styles.title}>{nome}</Text>
-        <Image source={{ uri: foto }} style={styles.image} />
-        <Text style={styles.price}>raça:{raca}</Text>
-        <Text style={styles.category}>Tipo: {tipo}</Text>
-        <Text style={styles.category}>Cor: {cor}</Text>
-        <Text style={styles.description}>sexo: {sexo}</Text>
-        <Text style={styles.description}>Data de Desaparecimento: {formattedDtDesaparecimento}</Text>
-        <Text style={styles.description}>Data de Encontro do animal: {formattedDtEncontro}</Text>
-        <Text style={styles.description}>Status do animal: {Status}</Text>
-        <Text style={styles.description}>UsuarioId: {UsuarioId}</Text>
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Adicionar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Ver Detalhes</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
 
+    return (
+      <View style={styles.container}>
+        <View style={styles.productInfo}>
+          <Text style={styles.title}>Nome Do Animal:</Text>
+          <Text style={styles.title}>{nome}</Text>
+          <Image source={{ uri: foto }} style={styles.image} />
+          <Text style={styles.price}>raça:{raca}</Text>
+          <Text style={styles.category}>Tipo: {tipo}</Text>
+          <Text style={styles.category}>Cor: {cor}</Text>
+          <Text style={styles.description}>sexo: {sexo}</Text>
+          <Text style={styles.description}>Data de Desaparecimento: {formattedDtDesaparecimento}</Text>
+          <Text style={styles.description}>Data de Encontro do animal: {formattedDtEncontro}</Text>
+          <Text style={styles.description}>Status do animal: {Status}</Text>
+          <Text style={styles.description}>UsuarioId: {UsuarioId}</Text>
+        </View>
+
+      </View>
+    );
+}
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
@@ -72,7 +66,7 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 10,
     marginBottom: 10,
-    objectFit: "contain"
+    objectFit: 'contain',
   },
   description: {
     fontSize: 16,
@@ -98,3 +92,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+

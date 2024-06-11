@@ -13,6 +13,10 @@ export default function Inserir() {
 
     const fade = useRef(new Animated.Value(0)).current;
 
+    function filter(){
+
+    }
+
     useFocusEffect(
         React.useCallback(()=>{
             fade.setValue(0);
@@ -78,7 +82,6 @@ export default function Inserir() {
             <TextInput
                 style={styles.input}
                 placeholder='Senha'
-                secureTextEntry={true}
                 value={senha}
                 onChangeText={setSenha}
             />
