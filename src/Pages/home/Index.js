@@ -18,7 +18,6 @@ export default function Index({ nome, raca, tipo, cor, sexo, foto, dtDesaparecim
   const animaisFiltrados = animais.filter(animal => animal.animalStatus === 1)
 
   function exibirDetalhesDoAnimal(item) {
-    setDetalhes2(item)
     setDetalhes(true);
     setAnimal( item );
   }
@@ -52,6 +51,7 @@ export default function Index({ nome, raca, tipo, cor, sexo, foto, dtDesaparecim
 
   return (
     <View style={{ backgroundColor: "black" }}>
+      
       <StatusBar />
       {detalhes == false ?
         <>

@@ -6,11 +6,9 @@ import { useFocusEffect } from '@react-navigation/native';
 import { AuthContext } from '../../../Context/AuthContext';
 
 export default function Animais({ handle, animal }) {
-  const formattedDtDesaparecimento = moment(animal.dtDesaparecimento).format('DD/MM/YYYY');
-  const formattedDtEncontro = moment(animal.dtEncontro).format('DD/MM/YYYY');
-
+  const formattedDtDesaparecimento = moment(animal.animaldtDesaparecimento).format('DD/MM/YYYY');
+  const formattedDtEncontro = moment(animal.animaldtEncontro).format('DD/MM/YYYY');
   const fade = useRef(new Animated.Value(0)).current;
-  const { detalhes2 } = useContext(AuthContext);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -22,7 +20,6 @@ export default function Animais({ handle, animal }) {
       }).start()
     }, [])
   )
-
   return (
     <Animated.View style={{ opacity: fade }}>
     <View style={styles.container}>

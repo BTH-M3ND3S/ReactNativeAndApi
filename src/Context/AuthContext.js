@@ -8,9 +8,6 @@ export const AuthContext = createContext(0);
         const[error,setError] = useState(false)
 
         const[detalhes, setDetalhes] = useState(false);
-        const[detalhes2, setDetalhes2] = useState(false);
-
-        const [ item , setItem ] = useState();
 
         async function Login(email,senha){
            await fetch('http://10.139.75.35/api/Usuario/CreateUser',{
@@ -28,7 +25,7 @@ export const AuthContext = createContext(0);
             .catch(err => setError(true))
            }       
         return(
-           <AuthContext.Provider value={{item: item, setItem, logado: logado, Login, error: error,setError, detalhes: detalhes, setDetalhes, detalhes2: detalhes2,setDetalhes2 }}>
+           <AuthContext.Provider value={{ logado: logado, Login, error: error,setError, detalhes: detalhes, setDetalhes, }}>
             {children}
            </AuthContext.Provider>
         )

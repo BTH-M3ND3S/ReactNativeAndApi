@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     marginVertical: 10,
-    marginHorizontal: 20,
     padding: 15,
     shadowColor: '#000',
     shadowOffset: {
@@ -41,6 +40,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    width:330,
+    marginLeft: 5
   },
   productInfo: {
     alignItems: 'center',
