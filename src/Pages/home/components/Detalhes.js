@@ -27,7 +27,7 @@ export default function Animais({ handle, animal }) {
     <Animated.View style={{ opacity: fade }}>
     <View style={styles.container}>
       <View style={styles.productInfo}>
-        <Text style={styles.title}></Text>
+        <Text style={styles.title}>Nome: {animal.animalNome}</Text>
         <Image source={{ uri:  animal.animalFoto}} style={styles.image} />
         <Text style={styles.info}>Raça: {animal.animalRaca} </Text>
         <Text style={styles.info}>Tipo: {animal.animalTipo}</Text>
