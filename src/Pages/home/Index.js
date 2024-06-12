@@ -6,30 +6,31 @@ import Detalhes from "./components/Detalhes"
 import { AuthContext } from '../../Context/AuthContext';
 
 
-export default function Index({ nome, raca, tipo, cor, sexo, foto, dtDesaparecimento, dtEncontro, Status, UsuarioId, handle, item, animail,  }) {
+export default function Index() {
 
   const [animais, setAnimais] = useState([])
   const fade = useRef(new Animated.Value(0)).current;
   const { detalhes, setDetalhes } = useContext(AuthContext);
-  const { detalhes2, setDetalhes2 } = useContext(AuthContext);
-
   const [ animal, setAnimal ] = useState();
+  const [ link, setLink ] = useState([]);
 
   const animaisFiltrados = animais.filter(animal => animal.animalStatus === 1)
 
-  function exibirDetalhesDoAnimal(item) {
+  function exibirDetalhesDoAnimal(item){
     setDetalhes(true);
     setAnimal( item );
   }
 
   useFocusEffect(
     React.useCallback(() => {
+      getAnimais();
       fade.setValue(0);
       Animated.timing(fade, {
         toValue: 1,
         duration: 2000,
         useNativeDriver: true
-      }).start()
+      }).start();
+      
     }, [])
   )
 
@@ -41,10 +42,13 @@ export default function Index({ nome, raca, tipo, cor, sexo, foto, dtDesaparecim
       }
     })
       .then(res => (res.ok == true) ? res.json() : false)
-      .then(json => setAnimais(json))
+      .then(json => {
+        setAnimais(json);
+      })
       .catch(err => setError(true))
   }
-
+  
+  
   useEffect(() => {
     getAnimais();
   }, [])
@@ -55,31 +59,31 @@ export default function Index({ nome, raca, tipo, cor, sexo, foto, dtDesaparecim
       <StatusBar />
       {detalhes == false ?
         <>
-          {animais.length > 0 ?
+          {animaisFiltrados.length > 0 ?
             <Animated.View style={{ opacity: fade }}>
               <FlatList
                 data={animaisFiltrados}
                 renderItem={({ item }) => (
                   <View style={styles.Container}>
                     <Animal nome={item.animalNome} 
-                    raca={item.animalRaca} 
-                    tipo={item.animalTipo} 
-                    cor={item.animalCor} 
-                    sexo={item.animalSexo} foto={item.animalFoto} dtDesaparecimento={item.animalDtDesaparecimento} dtEncontro={item.animalDtEncontro} Status={item.animalStatus} UsuarioId={item.usuarioId} />
+                  foto={item.animalFoto}/>
                     <TouchableOpacity style={styles.button} onPress={() => exibirDetalhesDoAnimal(item)}>
                       <Text style={styles.buttonText}>Ver Detalhes</Text>
                     </TouchableOpacity>
                   </View>
                 )}
-                keyExtractor={(item) => item.animalId.toString()} 
-              />
+                keyExtractor={(item) => item.animalId}              
+
+              />   
             </Animated.View>
             : <ActivityIndicator />
           }
         </>
         :
         <Detalhes  handle={setDetalhes} animal={animal}  />
+        
       }
+      
     </View>
   );
 }
@@ -102,6 +106,11 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 10,
+  },
   button: {
     flex: 1,
     backgroundColor: '#3e2465',
@@ -114,5 +123,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     textAlign: 'center',
+    fontWeight: 'bold',
   },
 });
+

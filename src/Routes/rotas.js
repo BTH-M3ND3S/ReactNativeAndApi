@@ -22,16 +22,16 @@ export default function rotas() {
     <NavigationContainer>
       <Tab.Navigator
         initialRouteName="Home"
-        activeColor="white"
-        inactiveColor="#3e2465"
-        barStyle={{ backgroundColor: 'black' }}
+        activeColor="blue"
+        inactiveColor="gray"
+        barStyle={{ backgroundColor: 'white', height: 63 }}
         >
         <Tab.Screen
           name="home"
           component={Home}
           options={{
-            tabBarIcon: ({ color }) => (
-              <MaterialIcons  name="home" size={26} color={color} /> 
+            tabBarIcon:({ color }) => (
+              <MaterialIcons  name="home" size={30} color={color}/> 
             ),
           }}
         />
@@ -40,16 +40,7 @@ export default function rotas() {
           component={Inserir}
           options={{
             tabBarIcon: ({ color }) => (
-              <MaterialIcons  name="home" size={26} color={color} /> 
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="busca"
-          component={Busca}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <MaterialIcons name="search" size={26} color={color} /> 
+              <MaterialIcons  name="home" size={30} color={color} /> 
             ),
           }}
         />

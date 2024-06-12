@@ -1,101 +1,136 @@
-import React, { useState,useRef } from 'react';
-import { View, Text, TextInput, ScrollView, StyleSheet, TouchableOpacity, Alert,Animated } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, TextInput, ScrollView, StyleSheet, TouchableOpacity, Alert, Animated } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 export default function Inserir() {
-    const [usuarioId, setUsuarioId] = useState(0);
-    const [email, setEmail] = useState('');
-    const [nomeDeUsuario, setNomeDeUsuario] = useState('');
-    const [senha, setSenha] = useState('');
-    const [usuarioTelefone, setUsuarioTelefone] = useState('');
-    const[erro,setErro] = useState(false)
-    const[sucesso, setSucesso] = useState(false)
+    const [animalId, setAnimalId] = useState(0);
+    const [ animalStatus, setAnimalStatus] = useState(1)
+    const [animalNome, setAnimalNome] = useState('');
+    const [animalRaca, setAnimalRaca] = useState('');
+    const [animalTipo, setAnimalTipo] = useState('');
+    const [animalCor, setAnimalCor] = useState('');
+    const [animalSexo, setAnimalSexo] = useState('');
+    const [animalFoto, setAnimalFoto] = useState('');
+    const [animalDtDesaparecimento, setAnimalDtDesaparecimento] = useState('');
+    const [animalDtEncontro, setAnimalDtEncontro] = useState('');
+    const [usuarioId, setUsuarioId] = useState('');
+    const [erro, setErro] = useState(false);
+    const [sucesso, setSucesso] = useState(false);
 
     const fade = useRef(new Animated.Value(0)).current;
 
-    function filter(){
-
-    }
-
     useFocusEffect(
-        React.useCallback(()=>{
+        React.useCallback(() => {
             fade.setValue(0);
-            Animated.timing(fade,{
+            Animated.timing(fade, {
                 toValue: 1,
                 duration: 2000,
                 useNativeDriver: true
-            }).start()
+            }).start();
+        }, [])
+    );
 
-        },[])
-    )
-    
-
-    async function RealizarCadastro(){
-        if (!email || !nomeDeUsuario || !senha || !usuarioTelefone) {
+    async function RealizarCadastro() {
+        if (!animalNome || !animalRaca || !animalTipo || !animalCor || !animalSexo || !animalDtDesaparecimento || !animalDtEncontro || !usuarioId) {
             Alert.alert('Erro', 'Por favor, preencha todos os campos.');
-            setErro(true)
+            setErro(true);
             return;
         }
-        await fetch('http://10.139.75.35/api/Usuario/CreateUser',{
-            method:"POST",
-            body:JSON.stringify(
-                {
-                    usuarioId: usuarioId,
-                    usuarioNome: nomeDeUsuario,
-                    usuarioEmail: email,
-                    usuarioTelefone: usuarioTelefone,
-                    usuarioSenha: senha     
-                }
-            )
+        await fetch('http://10.139.75.35/api/Animais/CreateAnimals', {
+            method: "POST",
+            body: JSON.stringify({
+                animalId: animalId,
+                animalNome: animalNome,
+                animalRaca: animalRaca,
+                animalTipo: animalTipo,
+                animalCor: animalCor,
+                animalSexo: animalSexo,
+                animalFoto: animalFoto,
+                animalStatus: animalStatus,
+                animalDtDesaparecimento: animalDtDesaparecimento,
+                animalDtEncontro: animalDtEncontro,
+                usuarioId: usuarioId
+            })
         })
         .then(res => (res.ok == true) ? res.json() : false)
-        .then(json=> {json.usuarioId ? setSucesso(true) : setErro(true) })
-        .catch(err => setErro(true))
+        .then(json => {json.animalId ? setSucesso(true) : setErro(true) })
+        .catch(err => setErro(true));
 
-        setEmail('');
-        setNomeDeUsuario('');
-        setSenha('');
-        setUsuarioTelefone('');
-        Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
-    };
+        setAnimalNome('');
+        setAnimalRaca('');
+        setAnimalTipo('');
+        setAnimalCor('');
+        setAnimalSexo('');
+        setAnimalFoto('');
+        setAnimalDtDesaparecimento('');
+        setAnimalDtEncontro('');
+        setUsuarioId('');
+        Alert.alert('Sucesso', 'Cadastro de animal realizado com sucesso!');
+    }
 
     return (
-        <Animated.View style={{opacity: fade}}>
-        <ScrollView contentContainerStyle={styles.container}>
-            {sucesso ? 
-            <Text>Obrigado por se cadastrar. Cadastro realizado com sucesso!</Text> 
-            : 
-            <>
-            <Text style={styles.title}>Cadastro</Text>
-            <TextInput
-                style={styles.input}
-                placeholder='Email'
-                value={email}
-                onChangeText={setEmail}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder='Nome de usuário'
-                value={nomeDeUsuario}
-                onChangeText={setNomeDeUsuario}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder='Senha'
-                value={senha}
-                onChangeText={setSenha}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder='Telefone'
-                value={usuarioTelefone}
-                onChangeText={setUsuarioTelefone}
-            />
-            <TouchableOpacity style={styles.button} onPress={RealizarCadastro}>
-                <Text style={styles.buttonText}>Cadastrar</Text>
-            </TouchableOpacity>
-            </>}
-        </ScrollView>
+        <Animated.View style={{ opacity: fade }}>
+            <ScrollView contentContainerStyle={styles.container}>
+                {sucesso ? (
+                    <Text>Obrigado por cadastrar o animal. Cadastro realizado com sucesso!</Text>
+                ) : (
+                    <>
+                        <Text style={styles.title}>Cadastro de Animal</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Nome do Animal'
+                            value={animalNome}
+                            onChangeText={setAnimalNome}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Raça'
+                            value={animalRaca}
+                            onChangeText={setAnimalRaca}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Tipo'
+                            value={animalTipo}
+                            onChangeText={setAnimalTipo}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Cor'
+                            value={animalCor}
+                            onChangeText={setAnimalCor}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Sexo'
+                            value={animalSexo}
+                            onChangeText={setAnimalSexo}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Data de Desaparecimento'
+                            value={animalDtDesaparecimento}
+                            onChangeText={setAnimalDtDesaparecimento}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Data de Encontro'
+                            value={animalDtEncontro}
+                            onChangeText={setAnimalDtEncontro}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder='ID do Usuário'
+                            keyboardType='numeric'
+                            value={usuarioId}
+                            onChangeText={text => setUsuarioId(text)}
+                        />
+                        <TouchableOpacity style={styles.button} onPress={RealizarCadastro}>
+                            <Text style={styles.buttonText}>Cadastrar</Text>
+                        </TouchableOpacity>
+                    </>
+                )}
+            </ScrollView>
         </Animated.View>
     );
 }

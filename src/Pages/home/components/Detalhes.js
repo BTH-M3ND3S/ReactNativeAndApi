@@ -1,14 +1,16 @@
 import React from 'react';
-import  { useEffect, useState, useRef, useContext } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Animated } from 'react-native';
 import moment from 'moment';
 import { useFocusEffect } from '@react-navigation/native';
-import { AuthContext } from '../../../Context/AuthContext';
+import Observacao from './Observacao';
 
-export default function Animais({ handle, animal }) {
+export default function Animais({ handle, animal, handle2 }) {
   const formattedDtDesaparecimento = moment(animal.animaldtDesaparecimento).format('DD/MM/YYYY');
   const formattedDtEncontro = moment(animal.animaldtEncontro).format('DD/MM/YYYY');
   const fade = useRef(new Animated.Value(0)).current;
+
+  const [ criaobs, setCriaObs] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -19,29 +21,43 @@ export default function Animais({ handle, animal }) {
         useNativeDriver: true
       }).start()
     }, [])
-  )
+  );
+  function criarobservação(){
+    setCriaObs(true)
+  }
+
   return (
     <Animated.View style={{ opacity: fade }}>
-    <View style={styles.container}>
-      <View style={styles.productInfo}>
-        <Text style={styles.title}>Nome: {animal.animalNome}</Text>
-        <Image source={{ uri:  animal.animalFoto}} style={styles.image} />
-        <Text style={styles.info}>Raça: {animal.animalRaca} </Text>
-        <Text style={styles.info}>Tipo: {animal.animalTipo}</Text>
-        <Text style={styles.info}>Cor: {animal.animalCor}</Text>
-        <Text style={styles.info}>Sexo: {animal.animalSexo}</Text>
-        <Text style={styles.info}>Data de Desaparecimento: {formattedDtDesaparecimento}</Text>
-        <Text style={styles.info}>Data de Encontro do Animal: {formattedDtEncontro}</Text>
-        <Text style={styles.info}>Status do Animal: {animal.animalStatus}</Text>
-        <Text style={styles.info}>UsuarioId: {animal.usuarioId}</Text>
+      {criaobs == false ? 
+      <View style={styles.container}>
+        <View style={styles.productInfo}>
+          <Text style={styles.title}>Nome: {animal.animalNome}</Text>
+          <Image source={{ uri: animal.animalFoto }} style={styles.image}/>
+          <View style={styles.infoRow}>
+            <Text style={styles.info}><Text style={styles.bold}>Raça:</Text> {animal.animalRaca}</Text>
+            <Text style={styles.info}><Text style={styles.bold}>Tipo:</Text> {animal.animalTipo}</Text>
+          </View>
+          <View style={styles.infoRow}>
+            <Text style={styles.info}><Text style={styles.bold}>Cor:</Text> {animal.animalCor}</Text>
+            <Text style={styles.info}><Text style={styles.bold}>Sexo:</Text> {animal.animalSexo}</Text>
+          </View>
+          <Text style={styles.info}><Text style={styles.bold}>Data de Desaparecimento:</Text> {formattedDtDesaparecimento}</Text>
+          <Text style={styles.info}><Text style={styles.bold}>Data de Encontro do Animal:</Text> {formattedDtEncontro}</Text>
+          <Text style={styles.info}><Text style={styles.bold}>Status do Animal:</Text> {animal.animalStatus}</Text>
+          <Text style={styles.info}><Text style={styles.bold}>UsuarioId:</Text> {animal.usuarioId}</Text>
+        </View>
+        <View style={{ marginTop: 130 }}>
+          <TouchableOpacity style={styles.buttonContainer} onPress={() => handle(false)}>
+            <Text style={styles.buttonText}>Voltar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonContainer} onPress={criarobservação}>
+            <Text style={styles.buttonText}>Criar observação</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <TouchableOpacity style={styles.buttonContainer} onPress={() => handle(false)}>
-        <Text style={styles.buttonText}>Voltar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonContainer}>
-        <Text style={styles.buttonText}>Criar observação</Text>
-      </TouchableOpacity>
-    </View>
+      :
+      <Observacao handle2={setCriaObs}/>
+        }
     </Animated.View>
   );
 }
@@ -58,7 +74,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    height: "100%"
+    height: "97.5%",
   },
   productInfo: {
     alignItems: 'center',
@@ -69,10 +85,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
   },
+  infoRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
   info: {
     fontSize: 16,
     color: '#333',
     marginBottom: 5,
+  },
+  bold: {
+    fontWeight: 'bold',
   },
   image: {
     width: '100%',
@@ -85,6 +109,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingVertical: 12,
     marginTop: 10,
+    
   },
   buttonText: {
     color: '#fff',
