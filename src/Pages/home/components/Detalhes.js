@@ -10,8 +10,7 @@ export default function Animais({ handle, animal, handle2 }) {
   const formattedDtEncontro = moment(animal.animaldtEncontro).format('DD/MM/YYYY');
   const fade = useRef(new Animated.Value(0)).current;
 
-  const [ criaobs, setCriaObs] = useState(false);
-
+  const [criaobs, setCriaObs] = useState(false);
   useFocusEffect(
     React.useCallback(() => {
       fade.setValue(0);
@@ -22,42 +21,38 @@ export default function Animais({ handle, animal, handle2 }) {
       }).start()
     }, [])
   );
-  function criarobservação(){
+  function criarobservação() {
     setCriaObs(true)
   }
 
   return (
     <Animated.View style={{ opacity: fade }}>
-      {criaobs == false ? 
-      <View style={styles.container}>
-        <View style={styles.productInfo}>
-          <Text style={styles.title}>Nome: {animal.animalNome}</Text>
-          <Image source={{ uri: animal.animalFoto }} style={styles.image}/>
-          <View style={styles.infoRow}>
+      {criaobs == false ?
+        <View style={styles.container}>
+          <View style={styles.productInfo}>
+            <Text style={styles.title}>Nome: {animal.animalNome}</Text>
+            <Image source={{ uri: animal.animalFoto }} style={styles.image} />
             <Text style={styles.info}><Text style={styles.bold}>Raça:</Text> {animal.animalRaca}</Text>
             <Text style={styles.info}><Text style={styles.bold}>Tipo:</Text> {animal.animalTipo}</Text>
-          </View>
-          <View style={styles.infoRow}>
             <Text style={styles.info}><Text style={styles.bold}>Cor:</Text> {animal.animalCor}</Text>
-            <Text style={styles.info}><Text style={styles.bold}>Sexo:</Text> {animal.animalSexo}</Text>
+            <Text style={styles.info}><Text style={styles.bold}>Data de Desaparecimento:</Text> {formattedDtDesaparecimento}</Text>
+            <Text style={styles.info}><Text style={styles.bold}>Data de Encontro do Animal:</Text> {formattedDtEncontro}</Text>
+            <Text style={styles.info}><Text style={styles.bold}>Status do Animal:</Text> {animal.animalStatus}</Text>
+            <Text style={styles.info}><Text style={styles.bold}>Observacao do animal::</Text> {animal.animalObservacao}</Text>
+            <Text style={styles.info}><Text style={styles.bold}>UsuarioId:</Text> {animal.usuarioId}</Text>
           </View>
-          <Text style={styles.info}><Text style={styles.bold}>Data de Desaparecimento:</Text> {formattedDtDesaparecimento}</Text>
-          <Text style={styles.info}><Text style={styles.bold}>Data de Encontro do Animal:</Text> {formattedDtEncontro}</Text>
-          <Text style={styles.info}><Text style={styles.bold}>Status do Animal:</Text> {animal.animalStatus}</Text>
-          <Text style={styles.info}><Text style={styles.bold}>UsuarioId:</Text> {animal.usuarioId}</Text>
+          <View style={{ marginTop: 130 }}>
+            <TouchableOpacity style={styles.buttonContainer} onPress={() => handle(false)}>
+              <Text style={styles.buttonText}>Voltar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonContainer} onPress={criarobservação}>
+              <Text style={styles.buttonText}>Criar observação</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={{ marginTop: 130 }}>
-          <TouchableOpacity style={styles.buttonContainer} onPress={() => handle(false)}>
-            <Text style={styles.buttonText}>Voltar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonContainer} onPress={criarobservação}>
-            <Text style={styles.buttonText}>Criar observação</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      :
-      <Observacao handle2={setCriaObs}/>
-        }
+        :
+        <Observacao handle2={setCriaObs} usuario={animal.usuarioId} animal={animal.animalId} />
+      }
     </Animated.View>
   );
 }
@@ -77,7 +72,7 @@ const styles = StyleSheet.create({
     height: "97.5%",
   },
   productInfo: {
-    alignItems: 'center',
+    alignItems: 'left',
   },
   title: {
     fontSize: 20,
@@ -105,11 +100,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonContainer: {
-    backgroundColor: '#3e2465',
+    backgroundColor: 'blue',
     borderRadius: 5,
     paddingVertical: 12,
     marginTop: 10,
-    
+
   },
   buttonText: {
     color: '#fff',

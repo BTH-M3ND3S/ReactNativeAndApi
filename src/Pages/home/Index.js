@@ -11,14 +11,14 @@ export default function Index() {
   const [animais, setAnimais] = useState([])
   const fade = useRef(new Animated.Value(0)).current;
   const { detalhes, setDetalhes } = useContext(AuthContext);
-  const [ animal, setAnimal ] = useState();
-  const [ link, setLink ] = useState([]);
+  const [animal, setAnimal] = useState();
+  const [link, setLink] = useState([]);
 
   const animaisFiltrados = animais.filter(animal => animal.animalStatus === 1)
 
-  function exibirDetalhesDoAnimal(item){
+  function exibirDetalhesDoAnimal(item) {
     setDetalhes(true);
-    setAnimal( item );
+    setAnimal(item);
   }
 
   useFocusEffect(
@@ -30,7 +30,7 @@ export default function Index() {
         duration: 2000,
         useNativeDriver: true
       }).start();
-      
+
     }, [])
   )
 
@@ -47,15 +47,15 @@ export default function Index() {
       })
       .catch(err => setError(true))
   }
-  
-  
+
+
   useEffect(() => {
     getAnimais();
   }, [])
 
   return (
-    <View style={{ backgroundColor: "black" }}>
-      
+    <View style={{ backgroundColor: "black", height: "100%" }}>
+
       <StatusBar />
       {detalhes == false ?
         <>
@@ -65,34 +65,35 @@ export default function Index() {
                 data={animaisFiltrados}
                 renderItem={({ item }) => (
                   <View style={styles.Container}>
-                    <Animal nome={item.animalNome} 
-                  foto={item.animalFoto}/>
+                    <Animal nome={item.animalNome}
+                      foto={item.animalFoto} />
                     <TouchableOpacity style={styles.button} onPress={() => exibirDetalhesDoAnimal(item)}>
                       <Text style={styles.buttonText}>Ver Detalhes</Text>
                     </TouchableOpacity>
                   </View>
                 )}
-                keyExtractor={(item) => item.animalId}              
+                keyExtractor={(item) => item.animalId}
 
-              />   
+              />
             </Animated.View>
             : <ActivityIndicator />
           }
         </>
         :
-        <Detalhes  handle={setDetalhes} animal={animal}  />
-        
+        <Detalhes handle={setDetalhes} animal={animal} />
+
       }
-      
+
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'black',
+    backgroundColor: '#121212',
+    height: '100%',
   },
   Container: {
-    backgroundColor: '#fff',
+    backgroundColor: '#1e1e1e',
     borderRadius: 10,
     marginVertical: 10,
     marginHorizontal: 20,
@@ -100,27 +101,30 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 4,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
   },
   errorText: {
-    color: 'red',
+    color: '#ff6b6b',
     textAlign: 'center',
     marginTop: 10,
+    fontSize: 16,
   },
   button: {
     flex: 1,
-    backgroundColor: '#3e2465',
+    backgroundColor: '#3e3e3e',
     borderRadius: 5,
     paddingVertical: 12,
     paddingHorizontal: 15,
     marginHorizontal: 5,
+    marginTop: 10,
+    alignItems: 'center',
   },
   buttonText: {
-    color: '#fff',
+    color: '#ffffff',
     fontSize: 16,
     textAlign: 'center',
     fontWeight: 'bold',

@@ -3,11 +3,13 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet,Animated, ScrollVie
 import { LinearGradient } from 'expo-linear-gradient';
 import  { AuthContext } from '../../Context/AuthContext';
 import { useFocusEffect } from '@react-navigation/native';
+import Cadastro from "./cadastro/index"
 
 
-export default function Login() {
+export default function Login({handle}) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [cadastro, setCadastro] = useState(false);
  
  // const fade = useRef(new Animated.Value(0)).current;
 
@@ -29,10 +31,10 @@ export default function Login() {
   };
 
   return (
-   
-    // <LinearGradient colors={['#3e2465', '#555555', '#3e2465']} style={styles.gradient}>
-    //    <Animated.View style={{opacity: fade}}>
-      <ScrollView style={styles.container}>
+     <LinearGradient colors={['black', 'blue', 'black']} style={styles.gradient}>
+      <View style={styles.container}>
+        {cadastro == false ? 
+        <View style={{width: "100%", height: "100%", alignItems:"center", justifyContent: "center"}}>
         <Text style={styles.title}>Login</Text>
         <TextInput
           style={styles.input}
@@ -55,12 +57,15 @@ export default function Login() {
         <View style={{display: "flex", flexDirection: "row", gap:10}}>
         <Text style={{color: "white"}}>Ainda não possui cadastro?</Text>
         <TouchableOpacity>
-            <Text style={{color: "white"}}>Cadastre-se</Text>
+            <Text style={{color: "white"}} onPress={() => setCadastro(true)}>Cadastre-se</Text>
         </TouchableOpacity>
         </View>
-      </ScrollView>
-    //   </Animated.View>
-    // </LinearGradient>
+        </View>
+        :
+        <Cadastro handle={setCadastro}/>
+        }
+      </View> 
+     </LinearGradient>
 
   );
 };
@@ -70,7 +75,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    flex: 1,
+    flex:1,
+    flexDirection: "column"
   },
   title: {
     fontSize: 24,
@@ -91,7 +97,7 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 10,
     width: "80%",
-    backgroundColor: '#3e2465',
+    backgroundColor: 'black',
     padding: 10,
     borderRadius:10
   },

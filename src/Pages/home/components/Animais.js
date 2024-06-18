@@ -24,7 +24,7 @@ export default function Animais({ nome, raca, tipo, cor, sexo, foto, dtDesaparec
           <Image source={{ uri: foto }} style={styles.image} />
           :
         <View style={{    width: '100%',height: 200, alignItems: "center", justifyContent: "center", backgroundColor: "white"}}>
-          <Text> Sem Foto </Text>
+         <Image source={require("../semfoto.png")}/>
         </View>
         }
       </View>
@@ -33,7 +33,7 @@ export default function Animais({ nome, raca, tipo, cor, sexo, foto, dtDesaparec
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#3e2465',
+    backgroundColor: 'gray',
     borderRadius: 10,
     marginVertical: 10,
     padding: 15,
