@@ -14,9 +14,7 @@ export default function Observacao({ handle2, animal2 }) {
   const {usuarioId, usuarioNome} = useContext(AuthContext);
 
   async function handleSubmit() {
-
     const dataFormatada = formatarData(observacaoData);
-
     await fetch('http://10.139.75.35/api/Observacoes/CreateObservacao', {
       method: "POST",
       headers: {
