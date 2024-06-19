@@ -1,24 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { AuthContext } from '../../../Context/AuthContext';
 
-export default function Observacao({ handle2 }) {
+export default function Observacao({ handle2, animal2 }) {
   const [observacaoDescricao, setObservacaoDescricao] = useState('');
   const [observacaoLocal, setObservacaoLocal] = useState('');
   const [observacaoData, setObservacaoData] = useState('');
   const [animalId, setAnimalId] = useState('');
-  const [usuarioId, setUsuarioId] = useState('');
   const [sucesso, setSucesso] = useState(false);
   const [erro, setErro] = useState(false);
 
-  async function handleSubmit() {
-    if (!observacaoDescricao || !observacaoLocal || !observacaoData || !animalId || !usuarioId) {
-      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
-      setErro(true);
-      return;
-    }
+  const {usuarioId, usuarioNome} = useContext(AuthContext);
 
-    // Formatar a data para o formato esperado pela API (yyyy-MM-dd)
+  async function handleSubmit() {
+
     const dataFormatada = formatarData(observacaoData);
 
     await fetch('http://10.139.75.35/api/Observacoes/CreateObservacao', {
@@ -29,8 +25,8 @@ export default function Observacao({ handle2 }) {
       body: JSON.stringify({
         observacaoDescricao: observacaoDescricao,
         observacaoLocal: observacaoLocal,
-        observacaoData: dataFormatada, // Usando a data formatada aqui
-        animalId: animalId,
+        observacaoData: dataFormatada, 
+        animalId: animal2.animalId,
         usuarioId: usuarioId
       })
     })
@@ -54,8 +50,6 @@ export default function Observacao({ handle2 }) {
   }
 
   function formatarData(data) {
-    // Formato esperado pelo usuário: dd/mm/yyyy
-    // Formato esperado pela API: yyyy-MM-dd
     const partes = data.split('/');
     if (partes.length === 3) {
       const dia = partes[0];
@@ -63,7 +57,6 @@ export default function Observacao({ handle2 }) {
       const ano = partes[2];
       return `${ano}-${mes}-${dia}`;
     }
-    // Se não estiver no formato esperado, retorna a data original
     return data;
   }
 
@@ -72,13 +65,13 @@ export default function Observacao({ handle2 }) {
     setObservacaoLocal('');
     setObservacaoData('');
     setAnimalId('');
-    setUsuarioId('');
   }
 
   return (
     <View style={styles.container}>
       <StatusBar />
       <View style={styles.box}>
+        <Text>{animal2.animaNome}</Text>
         <Text style={styles.label}>Descrição:</Text>
         <TextInput
           style={styles.input}
@@ -93,27 +86,19 @@ export default function Observacao({ handle2 }) {
           value={observacaoLocal}
           placeholder="Informe o local da observação"
         />
-        <Text style={styles.label}>Data (dd/mm/yyyy):</Text>
+        <Text style={styles.label}>Data:</Text>
         <TextInput
           style={styles.input}
           onChangeText={text => setObservacaoData(text)}
           value={observacaoData}
-          placeholder="Informe a data da observação"
+          placeholder="dd/mm/yyyy"
         />
-        <Text style={styles.label}>ID do Animal:</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={text => setAnimalId(text)}
-          value={animalId}
-          placeholder="Informe o ID do animal"
-        />
-        <Text style={styles.label}>ID do Usuário:</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={text => setUsuarioId(text)}
-          value={usuarioId}
-          placeholder="Informe o ID do usuário"
-        />
+        <Text style={styles.label}>Animal:</Text>
+        <Text style={styles.input}>Id: {animal2.animalId}</Text>
+        <Text style={styles.input}>Nome: {animal2.animalNome}</Text>
+        <Text style={styles.label}>Usuário:</Text>
+        <Text style={styles.input}>Id: {usuarioId}</Text>
+        <Text style={styles.input}>Nome: {usuarioNome}</Text>
         <TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Salvar Observação</Text>
         </TouchableOpacity>
@@ -140,7 +125,7 @@ const styles = StyleSheet.create({
   box: {
     width: '100%',
     height: '100%',
-    marginTop: 130,
+    marginTop: 40,
     alignItems: 'center',
     backgroundColor: "white",
      position: "absolute"

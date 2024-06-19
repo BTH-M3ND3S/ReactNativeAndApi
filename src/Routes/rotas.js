@@ -13,7 +13,7 @@ export default function rotas() {
   const { logado } = useContext(AuthContext);
 
   if (!logado) {
-    // return <Login />;
+     return <Login />;
   }
 
   return (

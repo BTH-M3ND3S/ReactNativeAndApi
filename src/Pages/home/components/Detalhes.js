@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect, useState, useRef, useContext } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Animated, ScrollView } from 'react-native';
 import moment from 'moment';
 import { useFocusEffect } from '@react-navigation/native';
 import Observacao from './Observacao';
@@ -9,6 +9,7 @@ export default function Animais({ handle, animal, handle2 }) {
   const formattedDtDesaparecimento = moment(animal.animaldtDesaparecimento).format('DD/MM/YYYY');
   const formattedDtEncontro = moment(animal.animaldtEncontro).format('DD/MM/YYYY');
   const fade = useRef(new Animated.Value(0)).current;
+  const[animal2, setAnimal2] = useState()
 
   const [criaobs, setCriaObs] = useState(false);
   useFocusEffect(
@@ -21,13 +22,15 @@ export default function Animais({ handle, animal, handle2 }) {
       }).start()
     }, [])
   );
-  function criarobservação() {
+  function criarobservação(item) {
     setCriaObs(true)
+    setAnimal2(item)
   }
 
   return (
     <Animated.View style={{ opacity: fade }}>
       {criaobs == false ?
+      <ScrollView>
         <View style={styles.container}>
           <View style={styles.productInfo}>
             <Text style={styles.title}>Nome: {animal.animalNome}</Text>
@@ -45,13 +48,14 @@ export default function Animais({ handle, animal, handle2 }) {
             <TouchableOpacity style={styles.buttonContainer} onPress={() => handle(false)}>
               <Text style={styles.buttonText}>Voltar</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonContainer} onPress={criarobservação}>
+            <TouchableOpacity style={styles.buttonContainer} onPress={() => criarobservação(animal)}>
               <Text style={styles.buttonText}>Criar observação</Text>
             </TouchableOpacity>
           </View>
         </View>
+      </ScrollView>
         :
-        <Observacao handle2={setCriaObs} usuario={animal.usuarioId} animal={animal.animalId} />
+        <Observacao handle2={setCriaObs} usuario={animal.usuarioId} animal2={animal2} />
       }
     </Animated.View>
   );

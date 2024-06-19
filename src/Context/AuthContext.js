@@ -6,7 +6,9 @@ export const AuthContext = createContext(0);
     {
         const[logado,setLogado] = useState(false)
         const[error,setError] = useState(false)
-        const[ isValid2, setValid2 ] = useState(false);
+        const[ isValid2, setValid2 ] = useState(false)
+        const[ usuarioId, setUsuarioId] = useState(null)
+        const[ usuarioNome, setUsuarioNome] = useState(null)
 
         const[detalhes, setDetalhes] = useState(false);
 
@@ -26,6 +28,8 @@ export const AuthContext = createContext(0);
             .then(json => {
                 if(json.usuarioId){
                     setLogado(true)
+                    setUsuarioId(json.usuarioId)
+                    setUsuarioNome(json.usuarioNome)
                 } else {
                     setError(true)
                 }
@@ -37,7 +41,7 @@ export const AuthContext = createContext(0);
     }
            }       
         return(
-           <AuthContext.Provider value={{ logado: logado, Login, error: error,setError, detalhes: detalhes, setDetalhes, isValid: isValid2, setValid2 }}>
+           <AuthContext.Provider value={{ logado: logado, usuarioId, usuarioNome, Login, error: error,setError, detalhes: detalhes, setDetalhes, isValid: isValid2, setValid2 }}>
             {children}
            </AuthContext.Provider>
         )
