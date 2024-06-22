@@ -15,7 +15,7 @@ export default function Observacao({ handle2, animal2 }) {
 
   async function handleSubmit() {
     const dataFormatada = formatarData(observacaoData);
-    await fetch('http://10.139.75.35/api/Observacoes/CreateObservacao', {
+    await fetch('http://192.168.1.10/api/Observacoes/CreateObservacao', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',

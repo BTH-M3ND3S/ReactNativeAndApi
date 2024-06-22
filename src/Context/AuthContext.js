@@ -14,7 +14,7 @@ export const AuthContext = createContext(0);
 
         async function Login(email,senha){
           if(email != "" && senha != ""){  
-           await fetch('http://10.139.75.35/api/Usuario/Login',{
+           await fetch('http://192.168.1.10/api/Usuario/Login',{
             method:'POST',
             headers: {
                 'content-type': 'application/json'

@@ -10,8 +10,6 @@ export default function Login({ handle }) {
   const [nome, setNome] = useState('');
   const [telefone, setTelefone] = useState('');
   const [confirmSenha, setConfirmSenha] = useState('');
-  const [sucesso, setSucesso] = useState(false);
-  const [erro, setErro] = useState(false);
   const { Login, error, setError } = useContext(AuthContext);
 
   function RealizarLogin() {
@@ -25,7 +23,7 @@ export default function Login({ handle }) {
     }
 
     try {
-      const response = await fetch('http://10.139.75.35/api/Usuario/CreateUser', {
+      const response = await fetch('http://192.168.1.10/api/Usuario/CreateUser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,16 +39,13 @@ export default function Login({ handle }) {
       const data = await response.json();
       if (data) {
         console.log('Nova observação:', data);
-        setSucesso(true);
         setCadastro(false);
         limparCampos();
         Alert.alert('Sucesso', 'Observação cadastrada com sucesso!');
       } else {
-        setErro(true);
         Alert.alert('Erro', 'Falha ao cadastrar observação.');
       }
     } catch (error) {
-      setErro(true);
       Alert.alert('Erro', 'Erro de rede');
     }
   }
@@ -61,8 +56,6 @@ export default function Login({ handle }) {
     setTelefone('');
     setSenha('');
     setConfirmSenha('');
-    setErro(false);
-    setSucesso(false);
     setError('');
   }
 

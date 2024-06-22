@@ -35,7 +35,7 @@ export default function Index() {
   )
 
   async function getAnimais() {
-    await fetch('http://10.139.75.35/api/Animais/GetAllAnimals', {
+    await fetch('http://192.168.1.10/api/Animais/GetAllAnimals', {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
